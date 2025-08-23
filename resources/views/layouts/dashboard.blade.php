@@ -165,14 +165,21 @@
                 <!-- Sidebar -->
                 <div class="sidebar">
                     <!-- Sidebar user panel (optional) -->
+                    @auth
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                         <div class="image">
                             <img src="{{ asset('dist/img/programmer.png') }}" class="img-circle elevation-2" alt="User Image">
                         </div>
-                        <div class="info">
-                            <a href="#" class="d-block">{{ $user }}</a>
+                        <div class="info flex flex-grow">
+                            <a href="#" class=" d-inline">{{ Auth::user()->name }}</a>
+                            <form action="{{ route('logout') }}" method="post" class="mx-1 d-inline">
+                                @csrf
+
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Logout</button>
+                            </form>
                         </div>
                     </div>
+                    @endauth
 
                     <!-- SidebarSearch Form -->
                     <div class="form-inline">
