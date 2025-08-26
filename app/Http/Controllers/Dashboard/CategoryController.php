@@ -39,7 +39,7 @@ class CategoryController extends Controller
         Category::create($request->all());
 
         return redirect()
-            ->route('categories.index')
+            ->route('dashboard.categories.index')
             ->with('success', 'Category added successfully!');
     }
 
@@ -56,7 +56,15 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $parents = Category::where('id', '<>', $id)
+            ->where(function ($query) use ($id) {
+                $query->whereNull('parent_id')
+                      ->orWhere('parent_id', '<>', $id) ;
+            })
+            ->get();
+
+        return view('dashboard.categories.edit', compact('category', 'parents'));
     }
 
     /**
@@ -64,7 +72,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $category = Category::findOrFail($id);
+
+        $category->update($request->all());
+
+        return redirect()
+            ->route('dashboard.categories.index')
+            ->with('success', 'Category updated successfully!');
     }
 
     /**
@@ -72,6 +86,10 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Category::destroy($id);
+
+        return redirect()
+            ->route('dashboard.categories.index')
+            ->with('success', 'Category deleted successfully!');
     }
 }
