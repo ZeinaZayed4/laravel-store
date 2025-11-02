@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
@@ -24,7 +25,8 @@ class CategoryController extends Controller
     public function create()
     {
         $parents = Category::all();
-        return view('dashboard.categories.create', compact('parents'));
+        $category = new Category();
+        return view('dashboard.categories.create', compact('category', 'parents'));
     }
 
     /**
@@ -36,7 +38,10 @@ class CategoryController extends Controller
             'slug' => Str::slug($request->name),
         ]);
 
-        Category::create($request->all());
+        $data = $request->except('image');
+        $data['image'] = $this->uploadImage($request);
+
+        Category::create($data);
 
         return redirect()
             ->route('dashboard.categories.index')
@@ -74,7 +79,16 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
 
-        $category->update($request->all());
+        $old_image = $category->image;
+
+        $data = $request->except('image');
+        $data['image'] = $this->uploadImage($request);
+
+        if ($old_image && $data['image']) {
+            Storage::disk('public')->delete($old_image);
+        }
+
+        $category->update($data);
 
         return redirect()
             ->route('dashboard.categories.index')
@@ -86,10 +100,27 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        Category::destroy($id);
+        $category = Category::findOrFail($id);
+        $category->delete();
+
+        if ($category->image) {
+            Storage::disk('public')->delete($category->image);
+        }
 
         return redirect()
             ->route('dashboard.categories.index')
             ->with('success', 'Category deleted successfully!');
+    }
+
+    protected function uploadImage(Request $request)
+    {
+        if (! $request->hasFile('image')) {
+            return;
+        }
+
+        $file = $request->file('image');
+        return $file->store('categories', [
+            'disk' => 'public'
+        ]);
     }
 }

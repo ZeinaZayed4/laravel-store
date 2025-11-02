@@ -24,6 +24,7 @@
                 <th></th>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Image</th>
                 <th>Parent</th>
                 <th>Created At</th>
                 <th colspan="2">Actions</th>
@@ -35,6 +36,7 @@
                 <td></td>
                 <td>{{ $category->id }}</td>
                 <td>{{ $category->name }}</td>
+                <td><img src="{{ asset('storage/' . $category->image) }}" alt="" height="50px"></td>
                 <td>{{ $category->parent_id }}</td>
                 <td>{{ $category->created_at }}</td>
                 <td>
