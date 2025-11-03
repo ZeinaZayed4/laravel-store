@@ -62,7 +62,14 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        $category = Category::findOrFail($id);
+        try {
+            $category = Category::findOrFail($id);
+        } catch (\Exception $e) {
+            return redirect()
+                ->route('dashboard.categories.index')
+                ->with('info', 'Record Not Found!');
+        }
+
         $parents = Category::where('id', '<>', $id)
             ->where(function ($query) use ($id) {
                 $query->whereNull('parent_id')

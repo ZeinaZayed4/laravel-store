@@ -12,11 +12,8 @@
         <a href="{{ route('dashboard.categories.create') }}" class="btn btn-sm btn-outline-primary">Create</a>
     </div>
 
-    @if(session()->has('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+    <x-alert type="success" />
+    <x-alert type="info" />
 
     <table class="table">
         <thead>
@@ -34,9 +31,9 @@
             @forelse($categories as $category)
             <tr>
                 <td></td>
-                <td>{{ $category->id }}</td>
+                <td>{{ $loop->iteration }}</td>
                 <td>{{ $category->name }}</td>
-                <td><img src="{{ asset('storage/' . $category->image) }}" alt="" height="50px"></td>
+                <td><img src="{{ asset('storage/' . $category->image) }}" alt="" height="50px" width="60px"></td>
                 <td>{{ $category->parent_id }}</td>
                 <td>{{ $category->created_at }}</td>
                 <td>
