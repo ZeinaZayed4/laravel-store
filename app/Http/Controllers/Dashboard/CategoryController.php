@@ -16,7 +16,14 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::leftJoin('categories as parents', 'parents.id', '=', 'categories.parent_id')
+            ->select([
+                'categories.*',
+                'parents.name as parent_name'
+            ])
+            ->filter(request()->query())
+            ->paginate(3);
+
         return view('dashboard.categories.index', ['categories' => $categories]);
     }
 

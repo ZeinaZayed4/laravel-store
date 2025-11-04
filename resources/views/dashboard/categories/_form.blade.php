@@ -51,5 +51,5 @@
 </div>
 
 <div class="form-group">
-    <x-form.button :label="$button_label ?? 'Save'"/>
+    <x-form.button>{{ $button_label ?? 'Save' }}</x-form.button>
 </div>

@@ -11,9 +11,9 @@
 
 <div>
     @foreach($options as $value => $text)
-        <div class="form-check">
+        <div class="form-check @error($name) is-invalid @enderror">
             <input
-                class="form-check-input @error($name) is-invalid @enderror"
+                class="form-check-input"
                 type="radio"
                 name="{{ $name }}"
                 id="{{ $name.'_'.$value }}"
