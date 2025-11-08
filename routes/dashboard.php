@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -20,4 +21,5 @@ Route::group([
         ->name('categories.force-delete');
 
     Route::resource('/categories', CategoryController::class);
+    Route::resource('products', ProductController::class);
 });
