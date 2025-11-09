@@ -53,8 +53,8 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $product->name }}</td>
                 <td><img src="{{ $product->image }}" alt="" height="50px" width="60px"></td>
-                <td>{{ $product->category_id }}</td>
-                <td>{{ $product->store_id }}</td>
+                <td>{{ $product->category->name }}</td>
+                <td>{{ $product->store->name }}</td>
                 <td>{{ $product->status }}</td>
                 <td>{{ $product->created_at }}</td>
                 <td>
