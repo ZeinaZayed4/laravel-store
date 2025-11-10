@@ -171,7 +171,7 @@
                             <img src="{{ asset('dist/img/programmer.png') }}" class="img-circle elevation-2" alt="User Image">
                         </div>
                         <div class="info flex flex-grow">
-                            <a href="#" class=" d-inline">{{ Auth::user()->name }}</a>
+                            <a href="{{ route('dashboard.profile.edit') }}" class=" d-inline">{{ Auth::user()->name }}</a>
                             <form action="{{ route('logout') }}" method="post" class="mx-1 d-inline">
                                 @csrf
 
